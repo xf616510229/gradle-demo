@@ -79,7 +79,7 @@ setting.gradle
 - `components` 显示工程的组件
 - `tasks` 查看所有的tasks
 - `dependencies` 查看所有依赖
-- `dependencyInsight` 查看改工程的特定依赖，不包含根root prohect的依赖
+- `dependencyInsight` 查看改工程的特定依赖，不包含根root project的依赖
 
 ### documentation
 
