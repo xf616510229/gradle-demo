@@ -1,0 +1,48 @@
+// 构建脚本文件，定义了该模块的构建配置，这里又隐式全局变量 project
+
+project.group 'me.feathers.demo' // 使用了 project.setGroup方法，设置了group的值为 'me.feathers.demo'
+version '1.0-SNAPSHOT' // 配置版本
+
+apply plugin: 'java' // 设置插件,传入一个Map
+apply plugin: 'war'
+
+sourceCompatibility = 1.8 // 源文件版本
+
+// 仓库，使用repositories方法，传入一个闭包函数，设置maven仓库中心为仓库
+repositories {
+    mavenCentral()
+}
+
+// 添加依赖，传入一个闭包
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+// 定义闭包函数 用于创建目录
+def createDir = {
+    path ->
+        File dir = new File(path)
+        if (!dir.exists()) {
+            dir.mkdirs()
+            println "创建目录${dir.getName()}成功"
+        }
+}
+// 声明任务 创建项目结构
+task makeJavaDir(){
+    def paths = ['src/main/java', 'src/main/resources', 'src/test/java', 'src/test/resources']
+    doFirst {
+        paths.forEach(createDir)
+    }
+}
+
+// 声明任务，创建web项目结构
+task makeWebDir() {
+    // 该任务依赖makeJavaDir任务
+    dependsOn 'makeJavaDir'
+    def paths = ['src/main/webapp', 'src/main/webapp/lib']
+    doLast{
+        paths.forEach(createDir)
+    }
+}
+
+
